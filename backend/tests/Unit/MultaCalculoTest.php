@@ -12,16 +12,23 @@ class MultaCalculoTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function tearDown(): void
+    {
+        Carbon::setTestNow(); // Resetar o mock de data após cada teste
+        parent::tearDown();
+    }
+
     /**
      * ✅ TESTE OBRIGATÓRIO 2: Cálculo correto da multa diária de atraso
      */
     public function test_calculo_correto_multa_por_dia(): void
     {
-        // Arrange
-        Carbon::setTestNow('2025-01-15 10:00:00');
+        // Arrange - Usar data atual real
+        $dataAtual = Carbon::parse('2025-11-12 10:00:00');
+        Carbon::setTestNow($dataAtual);
 
         $locacao = Locacao::factory()->create([
-            'data_prevista_devolucao' => Carbon::parse('2025-01-10'), // 5 dias atrás
+            'data_prevista_devolucao' => Carbon::parse('2025-11-07'), // 5 dias atrás
             'status' => 'atrasado',
         ]);
 
@@ -61,10 +68,11 @@ class MultaCalculoTest extends TestCase
     public function test_multa_1_dia_1_filme(): void
     {
         // Arrange
-        Carbon::setTestNow('2025-01-11 10:00:00');
+        $dataAtual = Carbon::parse('2025-11-12 10:00:00');
+        Carbon::setTestNow($dataAtual);
 
         $locacao = Locacao::factory()->create([
-            'data_prevista_devolucao' => Carbon::parse('2025-01-10'), // 1 dia atrás
+            'data_prevista_devolucao' => Carbon::parse('2025-11-11'), // 1 dia atrás
             'status' => 'atrasado',
         ]);
 
@@ -84,10 +92,11 @@ class MultaCalculoTest extends TestCase
     public function test_multa_multiplos_dias_multiplos_filmes(): void
     {
         // Arrange
-        Carbon::setTestNow('2025-01-18 10:00:00');
+        $dataAtual = Carbon::parse('2025-11-12 10:00:00');
+        Carbon::setTestNow($dataAtual);
 
         $locacao = Locacao::factory()->create([
-            'data_prevista_devolucao' => Carbon::parse('2025-01-10'), // 8 dias atrás
+            'data_prevista_devolucao' => Carbon::parse('2025-11-04'), // 8 dias atrás
             'status' => 'atrasado',
         ]);
 
@@ -112,10 +121,11 @@ class MultaCalculoTest extends TestCase
     public function test_dias_atraso_attribute(): void
     {
         // Arrange
-        Carbon::setTestNow('2025-01-20 10:00:00');
+        $dataAtual = Carbon::parse('2025-11-12 10:00:00');
+        Carbon::setTestNow($dataAtual);
 
         $locacao = Locacao::factory()->create([
-            'data_prevista_devolucao' => Carbon::parse('2025-01-10'),
+            'data_prevista_devolucao' => Carbon::parse('2025-11-02'), // 10 dias atrás
         ]);
 
         // Act

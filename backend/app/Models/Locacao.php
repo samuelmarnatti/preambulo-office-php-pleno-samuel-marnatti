@@ -82,7 +82,7 @@ class Locacao extends Model
 
     public function estaAtrasada(): bool
     {
-        return $this->status === 'atrasado' || 
+        return $this->status === 'atrasado' ||
                ($this->estaAtiva() && now()->isAfter($this->data_prevista_devolucao));
     }
 
@@ -98,9 +98,9 @@ class Locacao extends Model
             return 0;
         }
 
-        $diasAtraso = now()->diffInDays($this->data_prevista_devolucao);
+        $diasAtraso = $this->data_prevista_devolucao->startOfDay()->diffInDays(now()->startOfDay());
         $quantidadeFilmes = $this->filmes()->count();
-        
+
         // R$ 5,00 por dia por filme
         return $diasAtraso * 5.00 * $quantidadeFilmes;
     }
@@ -111,10 +111,8 @@ class Locacao extends Model
             return 0;
         }
 
-        return now()->diffInDays($this->data_prevista_devolucao);
-    }
-
-    public function atualizarStatus(): void
+        return $this->data_prevista_devolucao->startOfDay()->diffInDays(now()->startOfDay());
+    }    public function atualizarStatus(): void
     {
         if ($this->foiDevolvida()) {
             return;
