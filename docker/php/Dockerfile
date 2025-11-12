@@ -7,11 +7,12 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
     libonig-dev \
+    libicu-dev \
     zip \
     unzip \
     nodejs \
     npm \
-    && docker-php-ext-install pdo pdo_pgsql zip mbstring
+    && docker-php-ext-install pdo pdo_pgsql zip mbstring intl
 
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -24,9 +25,6 @@ WORKDIR /var/www
 
 # Ajustar permissões
 RUN chown -R www-data:www-data /var/www
-
-# Mudar para usuário não-root
-USER www-data
 
 # Expor porta PHP-FPM
 EXPOSE 9000
