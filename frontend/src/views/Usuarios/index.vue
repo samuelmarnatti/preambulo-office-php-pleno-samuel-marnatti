@@ -4,6 +4,12 @@ import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 import Navbar from '@/components/Navbar.vue';
 import api from '@/services/api';
+import SearchBar from './components/SearchBar.vue';
+import RoleFilters from './components/RoleFilters.vue';
+import UserCard from './components/UserCard.vue';
+import LoadingState from './components/LoadingState.vue';
+import EmptyState from './components/EmptyState.vue';
+import './style.css';
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -62,24 +68,6 @@ const excluirUsuario = async (id) => {
 
 const editarUsuario = (id) => {
   router.push({ name: 'UsuariosEditar', params: { id } });
-};
-
-const getRoleLabel = (role) => {
-  const labels = {
-    administrador: 'Administrador',
-    atendente: 'Atendente',
-    cliente: 'Cliente',
-  };
-  return labels[role] || role;
-};
-
-const getRoleClass = (role) => {
-  const classes = {
-    administrador: 'role-admin',
-    atendente: 'role-atendente',
-    cliente: 'role-cliente',
-  };
-  return classes[role] || '';
 };
 
 onMounted(() => {
