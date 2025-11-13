@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
         // Atendente
         User::create([
             'name' => 'Atendente Teste',
-            'email' => 'atendente@teste.com',
+            'email' => 'atendente@locadora.com',
             'password' => Hash::make('password'),
             'role' => 'atendente',
         ]);
@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
         // Administrador
         User::create([
             'name' => 'Admin Teste',
-            'email' => 'admin@teste.com',
+            'email' => 'admin@locadora.com',
             'password' => Hash::make('password'),
             'role' => 'administrador',
         ]);

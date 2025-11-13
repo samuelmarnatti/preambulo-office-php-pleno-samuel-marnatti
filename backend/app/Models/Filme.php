@@ -17,6 +17,7 @@ class Filme extends Model
         'categoria',
         'valor_locacao',
         'quantidade_disponivel',
+        'imagem_url',
     ];
 
     protected $casts = [

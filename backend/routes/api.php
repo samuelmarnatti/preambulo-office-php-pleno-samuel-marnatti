@@ -18,7 +18,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 // Rotas autenticadas
 Route::middleware('auth:sanctum')->group(function () {
-    
+
     // Auth
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
@@ -56,13 +56,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // Usuários (apenas atendente e admin)
     Route::middleware('role:atendente,administrador')->group(function () {
         Route::get('/users', [UserController::class, 'index']);
+        Route::post('/users', [UserController::class, 'store']);
         Route::get('/users/clientes', [UserController::class, 'clientes']);
         Route::get('/users/{user}', [UserController::class, 'show']);
         Route::put('/users/{user}', [UserController::class, 'update']);
-    });
-
-    // Usuários (apenas admin pode deletar)
-    Route::middleware('role:administrador')->group(function () {
         Route::delete('/users/{user}', [UserController::class, 'destroy']);
     });
 });

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Filme;
 use App\Services\FilmeService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FilmeController extends Controller
 {
@@ -44,7 +45,14 @@ class FilmeController extends Controller
             'categoria' => 'required|string|max:50',
             'valor_locacao' => 'required|numeric|min:0',
             'quantidade_disponivel' => 'required|integer|min:0',
+            'imagem' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120', // 5MB
         ]);
+
+        // Upload da imagem se fornecida
+        if ($request->hasFile('imagem')) {
+            $path = $request->file('imagem')->store('filmes', 'public');
+            $validated['imagem_url'] = $path;
+        }
 
         $filme = $this->filmeService->criar($validated);
 
@@ -61,7 +69,19 @@ class FilmeController extends Controller
             'categoria' => 'sometimes|string|max:50',
             'valor_locacao' => 'sometimes|numeric|min:0',
             'quantidade_disponivel' => 'sometimes|integer|min:0',
+            'imagem' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120', // 5MB
         ]);
+
+        // Upload da nova imagem se fornecida
+        if ($request->hasFile('imagem')) {
+            // Remover imagem antiga se existir
+            if ($filme->imagem_url) {
+                Storage::disk('public')->delete($filme->imagem_url);
+            }
+
+            $path = $request->file('imagem')->store('filmes', 'public');
+            $validated['imagem_url'] = $path;
+        }
 
         $filme = $this->filmeService->atualizar($filme, $validated);
 
@@ -74,6 +94,11 @@ class FilmeController extends Controller
     public function destroy(Filme $filme)
     {
         try {
+            // Remover imagem se existir
+            if ($filme->imagem_url) {
+                Storage::disk('public')->delete($filme->imagem_url);
+            }
+
             $this->filmeService->deletar($filme);
 
             return response()->json([

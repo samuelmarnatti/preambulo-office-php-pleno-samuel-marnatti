@@ -39,6 +39,26 @@ class UserController extends Controller
         return response()->json($user);
     }
 
+    /**
+     * Criar novo usuário (atendente/admin)
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'cpf' => 'required|string|size:11|unique:users,cpf',
+            'phone' => 'nullable|string|max:20',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|in:cliente,atendente,administrador',
+        ]);
+
+        $validated['password'] = Hash::make($validated['password']);
+
+        $user = User::create($validated);
+
+        return response()->json($user, 201);
+    }
 
     public function update(Request $request, User $user)
     {
@@ -48,7 +68,13 @@ class UserController extends Controller
             'cpf' => 'sometimes|string|size:11|unique:users,cpf,' . $user->id,
             'phone' => 'sometimes|nullable|string|max:20',
             'role' => 'sometimes|in:cliente,atendente,administrador',
+            'password' => 'sometimes|nullable|string|min:8|confirmed',
         ]);
+
+        // Se a senha foi fornecida, criptografar
+        if (isset($validated['password'])) {
+            $validated['password'] = Hash::make($validated['password']);
+        }
 
         $user->update($validated);
 

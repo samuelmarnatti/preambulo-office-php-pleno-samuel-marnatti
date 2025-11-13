@@ -15,18 +15,14 @@ class FilmeService
         return Filme::create($dados);
     }
 
-    /**
-     * Atualizar filme
-     */
+
     public function atualizar(Filme $filme, array $dados): Filme
     {
         $filme->update($dados);
         return $filme->fresh();
     }
 
-    /**
-     * Deletar filme
-     */
+
     public function deletar(Filme $filme): bool
     {
         // Verificar se filme tem locações ativas
@@ -45,25 +41,17 @@ class FilmeService
         return Filme::getCatalogo();
     }
 
-    /**
-     * Obter apenas filmes disponíveis (com cache)
-     */
     public function getDisponiveis()
     {
         return Filme::getDisponiveis();
     }
 
-    /**
-     * Buscar filmes por categoria
-     */
+
     public function buscarPorCategoria(string $categoria)
     {
         return Filme::porCategoria($categoria)->get();
     }
 
-    /**
-     * Limpar cache de filmes
-     */
     public function limparCache(): void
     {
         Cache::forget('filmes.catalogo');
