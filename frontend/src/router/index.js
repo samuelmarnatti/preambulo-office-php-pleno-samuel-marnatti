@@ -9,13 +9,6 @@ const routes = [{
         meta: { guest: true },
     },
     {
-        path: '/register',
-        name: 'Register',
-        component: () =>
-            import ('@/views/Register/index.vue'),
-        meta: { guest: true },
-    },
-    {
         path: '/',
         name: 'Home',
         component: () =>

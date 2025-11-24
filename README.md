@@ -192,7 +192,13 @@ docker-compose exec php php artisan test
 │   ├── tests/
 │       ├── Feature/
 │       ├── Unit/
-├── frontend/              # Aplicação Vue 3 (a ser criada)
+├── frontend/              # Aplicação Vue 3
+│   ├── src/
+│   │   ├── components/    # Componentes reutilizáveis
+│   │   ├── views/         # Páginas da aplicação
+│   │   ├── router/        # Configuração de rotas
+│   │   ├── stores/        # Pinia stores (state management)
+│   │   ├── services/      # API services
 ├── docker/
 │   ├── nginx/
 │   ├── php/
@@ -203,10 +209,11 @@ docker-compose exec php php artisan test
 ### Padrões Utilizados
 
 - **Service Layer:** Lógica de negócio isolada em Services
-- **Repository Pattern:** Abstração de acesso a dados (opcional)
 - **Jobs & Queues:** Processamento assíncrono com Redis
 - **Cache-Aside:** Cache de catálogo de filmes com invalidação automática
 - **API REST:** Backend expõe API para consumo pelo Vue SPA
+- **SPA (Single Page Application):** Frontend Vue 3 com Vue Router
+- **State Management:** Pinia para gerenciamento de estado global
 
 ### Performance
 
@@ -214,6 +221,7 @@ docker-compose exec php php artisan test
 - **Eager Loading:** Prevenção de N+1 queries
 - **Indexes:** Colunas frequentemente consultadas
 - **Queue Worker:** Processamento assíncrono de e-mails
+- **Vite:** Build tool moderno para desenvolvimento rápido
 
 ---
 
