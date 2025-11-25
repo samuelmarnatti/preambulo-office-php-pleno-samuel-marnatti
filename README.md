@@ -32,19 +32,13 @@ git clone https://github.com/samuelmarnatti/preambulo-office-php-pleno-samuel-ma
 cd preambulo-office-php-pleno-samuel-marnatti
 ```
 
-### 2️⃣ Crie o projeto Laravel
+### 2️⃣ Suba o container docker
 
 ```bash
-# Criar pasta backend
-mkdir backend
 
-# Criar o projeto Laravel dentro de backend
-docker run --rm -v $(pwd)/backend:/app composer create-project laravel/laravel .
-
-# Ou se preferir sem Docker (com Composer instalado):
 cd backend
-composer create-project laravel/laravel .
-cd ..
+docker-compose up
+
 ```
 
 ### 3️⃣ Configure o .env
@@ -60,6 +54,7 @@ APP_NAME="Locadora de Filmes"
 APP_ENV=local
 APP_DEBUG=true
 APP_URL=http://localhost:8080
+APP_KEY=
 
 DB_CONNECTION=pgsql
 DB_HOST=postgres
@@ -85,30 +80,36 @@ MAIL_FROM_ADDRESS="noreply@locadora.com"
 MAIL_FROM_NAME="${APP_NAME}"
 ```
 
-### 4️⃣ Suba os containers
-
-```bash
-docker-compose up -d
-```
-
-### 5️⃣ Instale as dependências do Laravel
+### 4️⃣ Instale as dependências do Laravel
 
 ```bash
 docker-compose exec php composer install
 ```
-
-### 6️⃣ Gere a chave da aplicação
+### 5️⃣ Gere a chave da aplicação
 
 ```bash
 docker-compose exec php php artisan key:generate
 ```
 
-### 7️⃣ Execute as migrations e seeders
+### 6️⃣ Execute as migrations e seeders
 
 ```bash
 docker-compose exec php php artisan migrate --seed
 ```
-
+### 7️⃣ Carregue as dependências do frontend
+```bash
+npm install
+```
+### 8️⃣ Execute o Vite
+Rodando por container
+```bash
+docker-compose up frontend
+```
+Ou
+Rodando direto
+```bash
+npm run dev
+```
 ---
 
 ## 🔐 Credenciais de Acesso
@@ -125,11 +126,11 @@ Após rodar os seeders, você terá os seguintes usuários:
 
 ## 🌐 URLs de Acesso
 
-- **Aplicação:** http://localhost:8080
+- **Aplicação:** backend: http://localhost:8080 frontend: http://localhost:5173
 - **Mailhog (E-mails):** http://localhost:8025
 - **PostgreSQL:** localhost:5432
 - **Redis:** localhost:6379
-
+- **Vite:** http://localhost:5173
 ---
 
 ## 🧪 Executar Testes
@@ -150,7 +151,7 @@ docker-compose exec php php artisan test
 
 ## 📊 Funcionalidades Implementadas
 
-### ✅ Parte 1 - Escopo Mínimo (Obrigatório)
+### ✅  Escopo Mínimo (Obrigatório)
 
 - [x] Estrutura Docker completa
 - [x] Autenticação e perfis de acesso (Cliente, Atendente, Administrador)
@@ -162,13 +163,6 @@ docker-compose exec php php artisan test
 - [x] Frontend Vue 3 SPA com painéis por perfil
 - [x] Testes PHPUnit mínimos
 - [x] Tela exclusiva do administrador (devoluções do dia)
-
-### 🎁 Parte 2 - Escopo Bônus (Diferencial)
-
-- [ ] Relatórios avançados
-- [ ] Painéis com gráficos
-- [ ] Cobertura de testes > 70%
-- [ ] Clean Architecture / DDD
 
 ---
 
@@ -278,7 +272,7 @@ docker-compose down -v
 
 **Samuel Marnatti**  
 Desenvolvedor PHP Pleno  
-samuelmarnatti@email.com
+samuelmarnatti@gmail.com
 
 ---
 
