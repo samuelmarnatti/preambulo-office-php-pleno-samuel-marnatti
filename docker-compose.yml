@@ -56,7 +56,18 @@ services:
       - redis
     networks:
       - locadora-network
-
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: locadora-frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"  # Porta para acessar o front
+    networks:
+      - locadora-network
   postgres:
     image: postgres:15-alpine
     container_name: locadora-postgres
@@ -94,3 +105,4 @@ volumes:
 networks:
   locadora-network:
     driver: bridge
+    

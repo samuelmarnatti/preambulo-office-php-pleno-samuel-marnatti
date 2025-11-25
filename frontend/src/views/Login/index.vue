@@ -52,8 +52,8 @@ const handleLogin = async () => {
             <line x1="17" y1="15" x2="22" y2="15" stroke-width="2"/>
           </svg>
         </div>
-        <h1 class="brand-title">CINESTREAM</h1>
-        <p class="brand-subtitle">Entre para continuar assistindo</p>
+        <h1 class="brand-title">LOCADORA</h1>
+        <p class="brand-subtitle">Entre para e veja as melhores opções</p>
       </div>
 
       <!-- Login form -->
