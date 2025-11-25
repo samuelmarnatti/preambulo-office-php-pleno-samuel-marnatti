@@ -103,6 +103,7 @@ npm install
 ### 8️⃣ Execute o Vite
 Rodando por container
 ```bash
+docker-compose build frontend
 docker-compose up frontend
 ```
 Ou
